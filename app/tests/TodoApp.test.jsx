@@ -19,4 +19,22 @@ describe('TodoApp', ()=>{
 
     Expect(todoApp.state.todos[0].text).toBe(todoText);
   });
+
+  it('should toggle completed when handle toggle called',()=>{
+    var todoData = {
+      id: 11,
+      text: 'test item',
+      completed: false
+    };
+    var todoApp = TestUtils.renderIntoDocument(<TodoApp />);
+    todoApp.setState({todos: [todoData]});
+    it('should have completed items set into false',()=>{
+      Expect(todoApp.state.todos[0].completed).toBe(false);
+    });
+    todoApp.handleToggle(11);
+    it('should have changed the value of completed opposite of current value',()=>{
+      Expect(todoApp.state.todos[0].completed).toBe(true);
+    });
+
+  });
 });
