@@ -45,11 +45,12 @@ var TodoApp = React.createClass({
     this.setState({ todos: updatedTodos });
   },
   render: function () {
-    var {todos} = this.state;
+    var {todos, showCompleted, searchItem} = this.state;
+    var filterTodos = TodoAPI.filterTodos(todos,showCompleted,searchItem);
     return(
       <div>
         <TodoSearch onSearch={this.handleSearch}/>
-        <TodoList todos={todos} onToggle={this.handleToggle}/>
+        <TodoList todos={filterTodos} onToggle={this.handleToggle}/>
         <AddTodo onAddTodo={this.handleAddTodo}/>
       </div>
     );

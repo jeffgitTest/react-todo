@@ -42,12 +42,63 @@ describe('TodoAPI', ()=>{
     it('should return todo if valid array in localStorage',()=>{
       var todos = [{
           id: 4,
-          test: 'sample data',
+          text: 'sample data',
           completed: false
         }];
         localStorage.setItem('todos', JSON.stringify(todos));
         var getActualTodo = TodoAPI.getTodos();
         Expect(getActualTodo).toEqual(todos);
     });
+  });
+
+  describe('filterTodos', ()=>{
+    var todos = [{
+        id: 3,
+        text: 'sample data',
+        completed: true
+      },
+      {
+        id: 4,
+        text: 'new sample data',
+        completed: false
+      },
+      {
+        id: 5,
+        text: 'sample data s',
+        completed: true
+      }
+    ];
+
+    describe('filter', ()=>{
+      it('should show Completed todo when showCompleted true', ()=>{
+        var filtered = TodoAPI.filterTodos(todos, true, '');
+        Expect(filtered.length).toBe(3);
+      });
+      console.log(todos);
+      it('should show not Completed todo when showCompleted false', ()=>{
+        var filtered = TodoAPI.filterTodos(todos, false, '');
+        Expect(filtered.length).toBe(1);
+      });
+    });
+    console.log(todos);
+    describe('sort',()=>{
+      it('should sort filtered successful items', ()=>{
+        var filtered = TodoAPI.filterTodos(todos, true, '');
+        Expect(filtered[0].completed).toBe(false);
+      });
+    });
+    console.log(todos);
+    describe('search',()=>{
+      it('should filter todos by searchText', ()=>{
+        var filtered = TodoAPI.filterTodos(todos, true, 'new');
+        Expect(filtered.length).toBe(1);
+      });
+      console.log(todos);
+      it('should return all todos if searchText is empty', ()=>{
+        var filtered = TodoAPI.filterTodos(todos, true, '');
+        Expect(filtered.length).toBe(3);
+      });
+    });
+
   });
 });
