@@ -10,31 +10,49 @@ describe('TodoApp', ()=>{
     Expect(TodoApp).toExist();
   });
 
-  it('should add todo to the todo state on handleAddTodo', ()=>{
+  describe('handleAddTodo', ()=>{
     var todoText = 'sample';
     var todoApp = TestUtils.renderIntoDocument(<TodoApp />);
 
     todoApp.setState({todos:[]});
     todoApp.handleAddTodo(todoText);
-
-    Expect(todoApp.state.todos[0].text).toBe(todoText);
+    it('should add todo to the todo state on handleAddTodo', ()=>{
+      Expect(todoApp.state.todos[0].text).toBe(todoText);
+    });
+    it('should a createdAt variable to have a valid unix timestamp', ()=>{
+      Expect(todoApp.state.todos[0].createdAt).toBeA('number');
+    });
   });
 
-  it('should toggle completed when handle toggle called',()=>{
+  describe('toggle', ()=>{
     var todoData = {
       id: 11,
       text: 'test item',
-      completed: false
+      completed: false,
+      createdAt: 0,
+      completedAt: undefined
     };
     var todoApp = TestUtils.renderIntoDocument(<TodoApp />);
     todoApp.setState({todos: [todoData]});
-    it('should have completed items set into false',()=>{
+
+    it('should toggle completed when handle toggle called',()=>{
       Expect(todoApp.state.todos[0].completed).toBe(false);
-    });
-    todoApp.handleToggle(11);
-    it('should have changed the value of completed opposite of current value',()=>{
-      Expect(todoApp.state.todos[0].completed).toBe(true);
+      // 'should have completed items set into false'
     });
 
+    it('should have changed the value of completed opposite of current value and set completedAt to be a number',()=>{
+      todoApp.handleToggle(11);
+      Expect(todoApp.state.todos[0].completed).toBe(true);
+      Expect(todoApp.state.todos[0].completedAt).toBeA('number');
+    });
+
+    it('should removed completedAt when completed is set to false', ()=>{
+      todoApp.handleToggle(11);
+      Expect(todoApp.state.todos[0].completed).toBe(false);
+      Expect(todoApp.state.todos[0].completedAt).toNotExist();
+    });
   });
+
+
+  // Test that when toggle from true to false, completedAt get removed
 });

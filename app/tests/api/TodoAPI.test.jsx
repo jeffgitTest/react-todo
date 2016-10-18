@@ -74,26 +74,22 @@ describe('TodoAPI', ()=>{
         var filtered = TodoAPI.filterTodos(todos, true, '');
         Expect(filtered.length).toBe(3);
       });
-      console.log(todos);
       it('should show not Completed todo when showCompleted false', ()=>{
         var filtered = TodoAPI.filterTodos(todos, false, '');
         Expect(filtered.length).toBe(1);
       });
     });
-    console.log(todos);
     describe('sort',()=>{
       it('should sort filtered successful items', ()=>{
         var filtered = TodoAPI.filterTodos(todos, true, '');
         Expect(filtered[0].completed).toBe(false);
       });
     });
-    console.log(todos);
     describe('search',()=>{
       it('should filter todos by searchText', ()=>{
         var filtered = TodoAPI.filterTodos(todos, true, 'new');
         Expect(filtered.length).toBe(1);
       });
-      console.log(todos);
       it('should return all todos if searchText is empty', ()=>{
         var filtered = TodoAPI.filterTodos(todos, true, '');
         Expect(filtered.length).toBe(3);
